@@ -130,9 +130,9 @@ void find_set_bits(int n, int set_bits[], int *count) {
 }
 
 // 各列の重みを計算する関数。 引数は2次元配列[k][n] x行y列はx*n+yと指定
-bool calculateColumnWeights(int *maskMatrix, int *columnWeights){
+// bool calculateColumnWeights(int *maskMatrix, int *columnWeights){
 
-}
+// }
 
 // ----------------------------------------------ここからスタート----------------------------------------------
 int main(){
@@ -291,15 +291,48 @@ int main(){
     //     printf("%d ",b[i]);
     // }
 
+    // マスク行列の各列の重みを計算する。
+    int columnWeights[n];
+    for(int i = 0; i < n; i++){
+        columnWeights[i] = 0; 
+    }
 
+    for(int i = 0; i < k; i++){
+        for(int j = 0; j < n; j++){
+            if(mask_matrix[i][j] == 1){
+                columnWeights[j]++;
+            }
+        }
+    }
+
+    printf("各列の重み: ");
+    for(int i = 0; i < n; i++){
+        printf("%d ", columnWeights[i]);
+    }
+    printf("\n");
+
+    int b_floor = floor(((double)k*(n-k+1))/n);
+    int b_ceil = ceil(((double)k*(n-k+1))/n);
+
+    printf("b_floor: %d, b_ceil: %d\n", b_floor, b_ceil);
+    
+    // 各列の重みがb_floorかb_ceilになっているか確認。
+    for(int i = 0; i < n; i++){
+        if(columnWeights[i] != b_floor && columnWeights[i] != b_ceil){
+            printf("各列の重みが正しくないマスク行列です。\n");
+            return 0;
+        }
+    }
+
+    printf("各列の重みが正しいマスク行列です。\n");
     return 0;
+
     }
     // ↑ step2 で終わる場合-----------------------------------------------------------------------------------
 
     // j != s であれば i = i + 1, j = j + 1 としてstep3へ
     i++;
     j++;
-
     
     // テスト P1,Q1とかを出力できるかどうか。
     printf("i = %d\n",i);
@@ -397,8 +430,9 @@ int main(){
             A[i][j] = a[(j + startPos) % n];
         }
     }
+
     printf("n x n の循環行列: (連続する1の成分はn-k+1個、連続する0の成分はk-1個)\n");
-    for(int i = 1; i < n; i++){
+    for(int i = 0; i < n; i++){
         for(int j = 0; j < n; j++){
             printf("%d ",A[i][j]);
         }
@@ -422,5 +456,39 @@ int main(){
         printf("\n");
     }
 
+    // マスク行列の各列の重みを計算する。
+    int columnWeights[n];
+    for(int i = 0; i < n; i++){
+        columnWeights[i] = 0; 
+    }
+
+    for(int i = 0; i < k; i++){
+        for(int j = 0; j < n; j++){
+            if(mask_matrix[i][j] == 1){
+                columnWeights[j]++;
+            }
+        }
+    }
+
+    printf("各列の重み: ");
+    for(int i = 0; i < n; i++){
+        printf("%d ", columnWeights[i]);
+    }
+    printf("\n");
+
+    int b_floor = floor(((double)k*(n-k+1))/n);
+    int b_ceil = ceil(((double)k*(n-k+1))/n);
+
+    printf("b_floor: %d, b_ceil: %d\n", b_floor, b_ceil);
+    
+    // 各列の重みがb_floorかb_ceilになっているか確認。
+    for(int i = 0; i < n; i++){
+        if(columnWeights[i] != b_floor && columnWeights[i] != b_ceil){
+            printf("各列の重みが正しくないマスク行列です。\n");
+            return 0;
+        }
+    }
+
+    printf("各列の重みが正しいマスク行列です。\n");
     return 0;
 }
